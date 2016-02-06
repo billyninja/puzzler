@@ -1,4 +1,4 @@
-from puzzle.models import Puzzle, Piece
+from puzzle.models import Puzzle
 from rest_framework import viewsets
 from puzzle.serializers import PuzzleSerializer, SolutionSerializer
 
