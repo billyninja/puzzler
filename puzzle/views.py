@@ -2,8 +2,7 @@ import json
 from django.shortcuts import get_object_or_404
 from puzzle.models import Puzzle, Piece
 from rest_framework import viewsets
-from puzzle.serializers import (PuzzleSerializer, SolutionSerializer,
-                                PieceSerializer)
+from puzzle.serializers import SolutionSerializer, PieceSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,7 +18,9 @@ class PuzzleView(APIView):
         pieces = puzzle.pieces.all().order_by("?")
         # Hammering the original serializer
         resp = SolutionSerializer(puzzle).data
-        resp["pieces"] = [x.secret for x in pieces]
+        fhost = 'http://localhost:8080'
+        resp["pieces"] = [{"secret_id": x.secret, "href": fhost + x.src_href}
+                          for x in pieces]
 
         return Response(resp, status=200)
 
@@ -29,6 +30,7 @@ class PuzzleView(APIView):
 
         for piece in json.loads(request.data["pieces"]):
             if "href" in piece:
+                piece["src_href"] = piece["href"]
                 del piece["href"]
             piece["puzzle_id"] = puzzle
             seed = "%d-%d-%d" % (puzzle.pk,

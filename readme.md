@@ -20,6 +20,7 @@ This service provides image puzzles (and its solutions) from [slapchopped](https
 - **GET** `/id` -> Retrieves a single puzzle instance and its **ordered** puzzle-pieces.
 
 `/puzzles`
+
 - **POST**  -> Creates a new puzzle/solution entry
 
 - **OPTIONS** `/id` -> Retrieves a puzzle and its **randomized** pieces.
