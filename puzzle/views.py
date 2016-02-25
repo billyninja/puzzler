@@ -21,7 +21,7 @@ class PuzzleView(APIView):
         # Setting the puzzle pieces to a randomized order
         pieces = puzzle.pieces.all().order_by("?")
         # Hammering the original serializer
-        resp = SolutionSerializer(puzzle).data
+        resp = SolutionSerializer(puzzle, context={'request': request}).data
         fhost = settings.SLAPCHOP_FILESERVER_HOST
 
         resp["pieces"] = [{"secret_id": x.secret, "href": fhost + x.src_href}
