@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from hashlib import md5
+from django.conf import settings
 
 
 class PuzzleView(APIView):
@@ -21,7 +22,7 @@ class PuzzleView(APIView):
         pieces = puzzle.pieces.all().order_by("?")
         # Hammering the original serializer
         resp = SolutionSerializer(puzzle).data
-        fhost = 'http://localhost:8080'
+        fhost = settings.SLAPCHOP_FILESERVER_HOST
 
         resp["pieces"] = [{"secret_id": x.secret, "href": fhost + x.src_href}
                           for x in pieces]
