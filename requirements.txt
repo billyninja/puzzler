@@ -1,2 +1,5 @@
 django==1.9.2
 djangorestframework
+pytest
+pytest-django
+pytest-mock

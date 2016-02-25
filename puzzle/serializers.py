@@ -4,8 +4,6 @@ from rest_framework import serializers
 
 class PuzzleSerializer(serializers.ModelSerializer):
 
-    pieces = Piece.objects.filter(pk=18).order_by('?')
-
     class Meta:
         model = Puzzle
         fields = ('id', 'username', 'pieces')

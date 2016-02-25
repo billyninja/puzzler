@@ -11,7 +11,10 @@ from hashlib import md5
 
 class PuzzleView(APIView):
 
-    def get(self, request, puzzle_id):
+    def options(self, request, puzzle_id):
+        """ This endpoint must deliver a puzzle and its pieces shuffled.
+        """
+
         puzzle = get_object_or_404(Puzzle, pk=puzzle_id)
 
         # Setting the puzzle pieces to a randomized order
@@ -19,8 +22,9 @@ class PuzzleView(APIView):
         # Hammering the original serializer
         resp = SolutionSerializer(puzzle).data
         fhost = 'http://localhost:8080'
+
         resp["pieces"] = [{"secret_id": x.secret, "href": fhost + x.src_href}
-                          for x in pieces]
+                           for x in pieces]
 
         return Response(resp, status=200)
 
@@ -49,10 +53,10 @@ class PuzzleView(APIView):
         puzzle = get_object_or_404(Puzzle, pk=puzzle_id)
         prop_solution = "-".join(request.data["sequence"])
 
-        status = 200 if (puzzle.solution_string == prop_solution) else 400
+        status = 202 if (puzzle.solution_string == prop_solution) else 400
 
         MESSAGES = {
-            200: "Congratulations! Solution found!",
+            202: "Congratulations! Solution found!",
             400: "No luck! Try again!",
         }
 
