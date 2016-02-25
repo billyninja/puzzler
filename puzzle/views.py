@@ -24,7 +24,7 @@ class PuzzleView(APIView):
         fhost = 'http://localhost:8080'
 
         resp["pieces"] = [{"secret_id": x.secret, "href": fhost + x.src_href}
-                           for x in pieces]
+                          for x in pieces]
 
         return Response(resp, status=200)
 
@@ -47,7 +47,12 @@ class PuzzleView(APIView):
         # where N is the number of pieces
         Piece.objects.bulk_create(bulk)
 
-        return Response("ok!", status=status.HTTP_201_CREATED)
+        resp = {
+            "puzzle_href": '/puzzles/%d' % puzzle.pk,
+            "solution_href": '/solutions/%d' % puzzle.pk,
+        }
+
+        return Response(resp, status=status.HTTP_201_CREATED)
 
     def put(self, request, puzzle_id):
         puzzle = get_object_or_404(Puzzle, pk=puzzle_id)
