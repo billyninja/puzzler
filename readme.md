@@ -9,6 +9,10 @@
 
 This service provides image puzzles (and its solutions) from [slapchopped](https://github.com/billyninja/slapchop) images through a REST API.
 
+## Testing
+
+`py.test`
+
 
 ---
 
